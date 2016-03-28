@@ -46,6 +46,7 @@ matrix_t* matrix_multiply(matrix_t* m1, matrix_t* m2) {
 }
 
 void destroy_matrix(matrix_t* m){
+	free(m->array);
 	free(m);
 }
 
