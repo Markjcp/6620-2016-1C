@@ -2,8 +2,8 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
-#include "proceso_texto.h"
-#include "cola.h"
+#include <proceso_texto.h>
+#include <cola.h>
 
 
  /*******************************************************************

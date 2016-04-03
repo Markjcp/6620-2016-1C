@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lectura.h"
+#include <lectura.h>
 #define TAMANIO_INICIAL_BUFFER 10
 #define FIN_LINEA '\n'
 #define FIN_STRING '\0'
@@ -13,8 +13,8 @@ char* leer_linea(){
 
 	char* buffer = malloc(sizeof(char)*(tam));
 	if (!buffer) return NULL;
-
-	for(i = 0; (c = getchar()) != FIN_LINEA; i++){ //leo hasta el enter
+	c = getchar();
+	for(i = 0; c != FIN_LINEA ; i++){ //leo hasta el enter
 		if (c == EOF)
 		{	
 			free(buffer);
@@ -28,6 +28,7 @@ char* leer_linea(){
 		}
 
 		buffer[i] = c;
+		c = getchar();
 	}
 	buffer[i] = FIN_STRING; // es necesario cerrar el string
 	return buffer;

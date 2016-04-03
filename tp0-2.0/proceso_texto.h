@@ -1,4 +1,4 @@
-#include "cola.h"
+#include <cola.h>
 #ifndef PROCESO_TEXTO_H
 #define PROCESO_TEXTO_H
 

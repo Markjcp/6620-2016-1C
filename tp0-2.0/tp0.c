@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "matrix.h"
-#include "lectura.h"
-#include "proceso_texto.h"
-#include "cola.h"
+#include <string.h>
+#include <cola.h>
+#include <matrix.h>
+#include <lectura.h>
+#include <proceso_texto.h>
 
 void imprimirAyuda(){
     printf("Usage: \n");

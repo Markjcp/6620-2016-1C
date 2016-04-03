@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "matrix.h"
+#include <matrix.h>
 
 double double_at(matrix_t* m, size_t i, size_t j){
 	return (double)*(m->array+(i*m->cols+j));
@@ -23,7 +23,7 @@ matrix_t* create_matrix(size_t rows, size_t cols){
 int print_matrix(FILE* fp, matrix_t* m){
 	size_t i;
 	size_t j;
-	fprintf(fp,"%d ",m->rows);
+	fprintf(fp,"%d ",(int)m->rows);
 	for ( i = 0; i < m->rows; i++) 
 	{
 		for ( j = 0; j < m->cols; j++) 
@@ -53,6 +53,17 @@ matrix_t* matrix_multiply(matrix_t* m1, matrix_t* m2) {
 		}
 	}
 	return result;
+}
+
+void print_matrix_std_o(matrix_t* m) {
+	size_t i = 0;
+	size_t j = 0;
+	for (; i < m->rows; i++) {
+		for (j=0; j < m->cols; j++) {
+			printf("%f ", double_at(m,i,j));
+		}
+		printf("\n");
+	}
 }
 
 void destroy_matrix(matrix_t* m){
