@@ -13,6 +13,9 @@ void load_value(matrix_t* m, size_t i, size_t j, double value){
 
 matrix_t* create_matrix(size_t rows, size_t cols){
 	matrix_t* matrix = (matrix_t*)malloc(sizeof(matrix_t));
+	if (!matrix){
+		return NULL;
+	}
 	matrix->rows = rows;
 	matrix->cols = cols;
 	size_t array_size = sizeof(double)*(matrix->cols)*(matrix->rows);
@@ -37,6 +40,9 @@ int print_matrix(FILE* fp, matrix_t* m){
 
 matrix_t* matrix_multiply(matrix_t* m1, matrix_t* m2) {
 	matrix_t* result = create_matrix(m1->rows, m2->cols);
+	if(!result){
+		return NULL;
+	}
 	size_t i = 0;
 	size_t j = 0;
 	double aux = 0.0;

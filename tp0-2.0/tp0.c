@@ -65,7 +65,7 @@ int main(int argc, char **argv)
  			cola_destruir(cola_numeros,NULL);
  			free(linea);
  			linea = leer_linea();
- 			continue;
+ 			exit(-1);
  		}
  		if ( (cant_numeros - 1) != (cant_elem_matriz*2) ) //Validacion
  		{ 
@@ -73,15 +73,32 @@ int main(int argc, char **argv)
  			cola_destruir(cola_numeros,free);
  			free(linea);
  			linea = leer_linea();
- 			continue;
+ 			exit(-1);
  		}
  		m1 = create_matrix(tam_matrices, tam_matrices);
+ 		if(!m1){
+ 			fprintf(stderr, "ERROR: No se pudo crear la matriz de entrada\n");
+ 			cola_destruir(cola_numeros,free);
+ 			free(linea);
+ 			exit(-2);
+ 		}
  		cargar_matriz(m1, cola_numeros, tam_matrices);
  		m2 = create_matrix(tam_matrices, tam_matrices);
  		cargar_matriz(m2, cola_numeros, tam_matrices);
+ 		if(!m2){
+ 			fprintf(stderr, "ERROR: No se pudo crear la matriz de entrada\n");
+ 		 	cola_destruir(cola_numeros,free);
+ 		 	free(linea);
+ 		 	exit(-2);
+ 		 }
  		m3 = matrix_multiply(m1, m2);
+		if (!m3) {
+			fprintf(stderr, "ERROR: No se pudo crear la matriz de salida\n");
+			cola_destruir(cola_numeros, free);
+			free(linea);
+			exit(-3);
+		}
  		print_matrix(stdout, m3);
-
  		cola_destruir(cola_numeros,free);
  		destroy_matrix(m1);
  		destroy_matrix(m2);
