@@ -50,6 +50,7 @@ int main(int argc, char **argv)
 	char *linea = leer_linea();
 	if(!linea){
 	   fprintf(stderr, "ERROR: No se pudo leer linea de entrada\n");
+	   exit(-1);
 	}
  	while (linea) //Es NULL cuando hay error en memoria o se llegó al EOF
  	{
@@ -102,7 +103,10 @@ int main(int argc, char **argv)
 			exit(-3);
 		}
  		if(print_matrix(stdout, m3) < 0){
-		   fprintf(stderr, "ERROR: No se pudo escribir la salida\n");
+		    fprintf(stderr, "ERROR: No se pudo escribir la salida\n");
+		    cola_destruir(cola_numeros, free);
+		    free(linea);
+		    exit(-4);
 		}
  		cola_destruir(cola_numeros,free);
  		destroy_matrix(m1);
