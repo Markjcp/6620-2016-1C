@@ -20,21 +20,31 @@ matrix_t* create_matrix(size_t rows, size_t cols){
 	matrix->cols = cols;
 	size_t array_size = sizeof(double)*(matrix->cols)*(matrix->rows);
 	matrix->array = (double*)malloc(array_size);
+	if (!matrix->array){
+	    free(matrix);  
+	    return NULL;
+	}
 	return matrix;
 }
 
 int print_matrix(FILE* fp, matrix_t* m){
 	size_t i;
 	size_t j;
-	fprintf(fp,"%d ",(int)m->rows);
+	if(fprintf(fp,"%d ",(int)m->rows) < 0){
+	  return ERROR_ESCRITURA;
+	}
 	for ( i = 0; i < m->rows; i++) 
 	{
 		for ( j = 0; j < m->cols; j++) 
 		{
-			fprintf(fp,"%.1f ", double_at(m,i,j));
+			if(fprintf(fp,"%.1f ", double_at(m,i,j)) < 0){
+			  return ERROR_ESCRITURA;
+			}
 		}
 	}
-	fprintf(fp,"\n");
+	if(fprintf(fp,"\n") < 0){
+	  return ERROR_ESCRITURA;
+	}
 	return 0;
 }
 
@@ -61,15 +71,20 @@ matrix_t* matrix_multiply(matrix_t* m1, matrix_t* m2) {
 	return result;
 }
 
-void print_matrix_std_o(matrix_t* m) {
+int print_matrix_std_o(matrix_t* m) {
 	size_t i = 0;
 	size_t j = 0;
 	for (; i < m->rows; i++) {
 		for (j=0; j < m->cols; j++) {
-			printf("%f ", double_at(m,i,j));
+			if(printf("%f ", double_at(m,i,j)) < 0){
+			    return ERROR_ESCRITURA;
+			}
 		}
-		printf("\n");
+		if(printf("\n") < 0){
+		  return ERROR_ESCRITURA;
+		}
 	}
+	return 0;
 }
 
 void destroy_matrix(matrix_t* m){

@@ -1,5 +1,6 @@
 #ifndef MATRIX_H_
 #define MATRIX_H_
+#define ERROR_ESCRITURA -1
 
 #include <stdlib.h>
 
@@ -13,7 +14,7 @@ matrix_t* create_matrix(size_t rows, size_t cols);
 
 int print_matrix(FILE* fp, matrix_t* m);
 
-void print_matrix_std_o(matrix_t* m);
+int print_matrix_std_o(matrix_t* m);
 
 matrix_t* matrix_multiply(matrix_t* m1, matrix_t* m2);
 

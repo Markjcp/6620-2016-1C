@@ -48,6 +48,9 @@ int main(int argc, char **argv)
 	matrix_t* m3;
 	cola_t *cola_numeros;
 	char *linea = leer_linea();
+	if(!linea){
+	   fprintf(stderr, "ERROR: No se pudo leer linea de entrada\n");
+	}
  	while (linea) //Es NULL cuando hay error en memoria o se llegó al EOF
  	{
  		cola_numeros = separar_linea(linea);
@@ -98,7 +101,9 @@ int main(int argc, char **argv)
 			free(linea);
 			exit(-3);
 		}
- 		print_matrix(stdout, m3);
+ 		if(print_matrix(stdout, m3) < 0){
+		   fprintf(stderr, "ERROR: No se pudo escribir la salida\n");
+		}
  		cola_destruir(cola_numeros,free);
  		destroy_matrix(m1);
  		destroy_matrix(m2);
