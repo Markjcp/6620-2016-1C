@@ -31,6 +31,11 @@ cola_t *separar_linea(char *linea)
 	while(linea[pos_linea] != FIN_STRING)
 	{
 		char* buffer = malloc(sizeof(char)*(largo));
+		if (!buffer)
+		{
+			cola_destruir(cola,free);
+			return NULL;
+		}
 		pos_palabra = POS_INICIAL;
 		while( (linea[pos_linea] != FIN_STRING) && (ok_palabra = (linea[pos_linea] != FIN_PALABRA)) )
 		{
@@ -39,7 +44,10 @@ cola_t *separar_linea(char *linea)
 				largo += largo;
 				char *buffer_aux = realloc(buffer, largo * sizeof(char));
 				if (!buffer_aux)
-					return cola;                 // Si no funciona la redimensión, corto aca
+				{
+					cola_destruir(cola,free);
+					return NULL;                 // Si no funciona la redimensión, corto aca
+				}
 				buffer = buffer_aux;					
 			}
 			buffer[pos_palabra++] = linea[pos_linea++];
@@ -51,6 +59,11 @@ cola_t *separar_linea(char *linea)
 			largo = TAMANIO_INICIAL_BUFFER;
 		}
 		double *num = malloc(sizeof(double));
+		if (!num)
+		{
+			cola_destruir(cola,free);
+			return NULL;
+		}
 		*num = strtod(buffer,&ptr);
 		if (*ptr != FIN_STRING)
 		{

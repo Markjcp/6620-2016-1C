@@ -23,7 +23,7 @@ char* leer_linea(){
 		if(i + 1 == tam){ // si llego al tamanio de mi cadena
 			tam += tam;  // la forma de modificar tam es arbitraria
 			char* aux = realloc(buffer, tam * sizeof(char));
-			if(!aux) break;  // si falla realloc, termino aca
+			if(!aux) return NULL;  // si falla realloc, termino aca
 			buffer = aux;
 		}
 

@@ -28,7 +28,6 @@ void cargar_matriz(matrix_t* m, cola_t* cola_num, size_t tam_matriz){
  			load_value(m, i, j, *num);
  			free(num);
 		}
- 		
  	}
 }
 
@@ -49,12 +48,18 @@ int main(int argc, char **argv)
 	cola_t *cola_numeros;
 	char *linea = leer_linea();
 	if(!linea){
-	   fprintf(stderr, "ERROR: No se pudo leer linea de entrada\n");
+	   fprintf(stderr, "ERROR DE MEMORIA: No se pudo leer la linea de entrada\n");
 	   exit(-1);
 	}
  	while (linea) //Es NULL cuando hay error en memoria o se llegó al EOF
  	{
  		cola_numeros = separar_linea(linea);
+ 		if (!cola_numeros)
+ 		{
+ 			fprintf(stderr, "ERROR DE MEMORIA: No se pudo procesar la línea de entrada\n");
+ 			free(linea);
+ 			exit(-1);
+ 		}
  		cant_numeros = cola_tamanio(cola_numeros);
  		if (!cola_esta_vacia(cola_numeros))
  		{
@@ -69,7 +74,7 @@ int main(int argc, char **argv)
  			cola_destruir(cola_numeros,NULL);
  			free(linea);
  			linea = leer_linea();
- 			exit(-1);
+ 			continue;
  		}
  		if ( (cant_numeros - 1) != (cant_elem_matriz*2) ) //Validacion
  		{ 
@@ -77,33 +82,39 @@ int main(int argc, char **argv)
  			cola_destruir(cola_numeros,free);
  			free(linea);
  			linea = leer_linea();
- 			exit(-1);
+ 			continue;
  		}
  		m1 = create_matrix(tam_matrices, tam_matrices);
  		if(!m1){
- 			fprintf(stderr, "ERROR: No se pudo crear la matriz de entrada\n");
+ 			fprintf(stderr, "ERROR DE MEMORIA: No se pudo crear la matriz de entrada\n");
  			cola_destruir(cola_numeros,free);
  			free(linea);
  			exit(-2);
  		}
  		cargar_matriz(m1, cola_numeros, tam_matrices);
  		m2 = create_matrix(tam_matrices, tam_matrices);
- 		cargar_matriz(m2, cola_numeros, tam_matrices);
  		if(!m2){
- 			fprintf(stderr, "ERROR: No se pudo crear la matriz de entrada\n");
+ 			fprintf(stderr, "ERROR DE MEMORIA: No se pudo crear la matriz de entrada\n");
+ 		 	destroy_matrix(m1);
  		 	cola_destruir(cola_numeros,free);
  		 	free(linea);
  		 	exit(-2);
- 		 }
+ 		}
+ 		cargar_matriz(m2, cola_numeros, tam_matrices);
  		m3 = matrix_multiply(m1, m2);
 		if (!m3) {
-			fprintf(stderr, "ERROR: No se pudo crear la matriz de salida\n");
+			fprintf(stderr, "ERROR DE MEMORIA: No se pudo crear la matriz de salida\n");
+			destroy_matrix(m1);
+ 			destroy_matrix(m2);
 			cola_destruir(cola_numeros, free);
 			free(linea);
 			exit(-3);
 		}
  		if(print_matrix(stdout, m3) < 0){
-		    fprintf(stderr, "ERROR: No se pudo escribir la salida\n");
+		    fprintf(stderr, "ERROR I/O: No se pudo escribir la salida\n");
+		    destroy_matrix(m1);
+ 			destroy_matrix(m2);
+ 			destroy_matrix(m3);
 		    cola_destruir(cola_numeros, free);
 		    free(linea);
 		    exit(-4);
