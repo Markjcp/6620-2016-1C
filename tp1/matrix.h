@@ -16,11 +16,10 @@ int print_matrix(FILE* fp, matrix_t* m);
 
 int print_matrix_std_o(matrix_t* m);
 
-void matrix_multiply(matrix_t* m1, matrix_t* m2, matrix_t* result);
-
 void destroy_matrix(matrix_t* m);
 
 void load_value(matrix_t* m, size_t i, size_t j, double value);
 
+double double_at(matrix_t* m, size_t i, size_t j);
 
 #endif /* MATRIX_H_ */

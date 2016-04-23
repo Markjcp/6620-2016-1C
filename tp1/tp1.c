@@ -3,6 +3,7 @@
 #include <string.h>
 #include <cola.h>
 #include <matrix.h>
+#include <matrix_multiply.h>
 #include <lectura.h>
 #include <proceso_texto.h>
 
