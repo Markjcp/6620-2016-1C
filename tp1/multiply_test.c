@@ -32,7 +32,8 @@ int main(void) {
 	print_matrix_std_o(m1);
 	printf("\n");
 
-	matrix_t* result = matrix_multiply(m, m1);
+	matrix_t* result = create_matrix(3, 3);
+	matrix_multiply(m, m1,result);
 	print_matrix_std_o(result);
 
 	destroy_matrix(m);
