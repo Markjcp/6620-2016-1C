@@ -13,7 +13,7 @@
  #define POS_INICIAL 0
  #define FIN_STRING '\0'
  #define FIN_PALABRA ' '
- #define TAMANIO_INICIAL_BUFFER 12
+ #define TAMANIO_INICIAL_BUFFER 10
  
   /*******************************************************************
  *                        IMPLEMENTACION
@@ -25,11 +25,14 @@ cola_t *separar_linea(char *linea)
 	if (!cola) return NULL;
 	size_t pos_linea = POS_INICIAL;
 	size_t pos_palabra;
-	size_t largo = TAMANIO_INICIAL_BUFFER;
+	size_t largo;
 	bool ok_palabra;
 	char *ptr;
+	int exp_realloc;
 	while(linea[pos_linea] != FIN_STRING)
 	{
+		largo = TAMANIO_INICIAL_BUFFER;
+		exp_realloc = 1;
 		char* buffer = malloc(sizeof(char)*(largo));
 		if (!buffer)
 		{
@@ -41,7 +44,8 @@ cola_t *separar_linea(char *linea)
 		{
 			if (pos_palabra == largo-2)
 			{
-				largo += largo;
+				exp_realloc += 1;
+				largo = (size_t)pow(TAMANIO_INICIAL_BUFFER,exp_realloc);
 				char *buffer_aux = realloc(buffer, largo * sizeof(char));
 				if (!buffer_aux)
 				{
@@ -54,10 +58,7 @@ cola_t *separar_linea(char *linea)
 		}
 		buffer[pos_palabra] = FIN_STRING;
 		if(!ok_palabra)
-		{
 			pos_linea++;
-			largo = TAMANIO_INICIAL_BUFFER;
-		}
 		double *num = malloc(sizeof(double));
 		if (!num)
 		{
