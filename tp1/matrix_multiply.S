@@ -59,8 +59,8 @@ matrix_multiply:
 		sw t1,0($fp) 					# i=0
 		li t1,0
 		sw t1,4($fp) 					# j=0
-		add.d f1,0,0
-		sd f1,32($fp)					# aux=0.0
+		li.d $f4,0
+		s.d $f4,32($fp)					# aux=0.0
 		lw t1,8(a0)
 		sw t1,12($fp) 					# rows=m1->rows
 		lw t1,4(a0)
@@ -74,8 +74,8 @@ loop_1: lw t1,0($fp) 					# cargo i
 loop_2:	lw t1,4($fp)					# cargo j
 		lw t2,16($fp)					# cargo cols
 		bge t1,t2,before_loop_1			# j>=cols -> before_loop_1
-		add.d f1,0,0
-		sd f1,32($fp)					# aux=0.0
+		li.d $f4,0
+		s.d $f4,32($fp)					# aux=0.0
 		li t1,0
 		sw t1,8($fp)					# x=0
 loop_3:	lw t1,8($fp)					# cargo x
@@ -97,8 +97,8 @@ loop_3:	lw t1,8($fp)					# cargo x
 		addu t1, a0
 		sw t1, 28($fp)					# aux3 = aux2 + result
 		lw t1, 28($fp)					# cargo aux3
-		ld f1,0(t1)						# cargo el elemento de la matriz
-		sd f1,40($fp)					# first = m[...]
+		l.d $f4,0(t1)						# cargo el elemento de la matriz
+		s.d $f4,40($fp)					# first = m[...]
 
 		lw t1,0($fp) 					# cargo i
 		lw t2,16($fp)					# cargo cols
@@ -115,15 +115,15 @@ loop_3:	lw t1,8($fp)					# cargo x
 		addu t1, a1
 		sw t1, 28($fp)					# aux3 = aux2 + result
 		lw t1, 28($fp)					# cargo aux3
-		ld f1,0(t1)						# cargo el elemento de la matriz
-		sd f1,48($fp)					# second = m[...]
+		l.d $f4,0(t1)						# cargo el elemento de la matriz
+		s.d $f4,48($fp)					# second = m[...]
 
-		ld f1, 40($fp)					# cargo first
-		ld f2, 48($fp)					# cargo second
-		mul.d f3,f1,f2
-		ld f1, 32($fp)					# cargo aux
-		add.d f1,f1,f3
-		sd f1, 32($fp)					# aux = aux + (first*second)
+		l.d $f4, 40($fp)					# cargo first
+		l.d $f6, 48($fp)					# cargo second
+		mul.d $f8,$f4,$f6
+		l.d $f4, 32($fp)					# cargo aux
+		add.d $f4,$f4,$f8
+		s.d $f4,32($fp)					# aux = aux + (first*second)
 
 		lw t1,8($fp)					# cargo x
 		addu t1,t1,1
@@ -148,9 +148,9 @@ store_values:
 		sw t1,20($fp)					# aux1 = (aux1 + j)*8
 		lw t1,76($fp)					# cargo a2
 		lw t2,20($fp)					# cargo aux1
-		ld f1,32($fp)					# cargo aux
+		l.d $f4,32($fp)					# cargo aux
 		addu t3,t1,t2
-		sw f1,0(t3)						# result[aux1]=aux
+		s.d $f4,0(t3)						# result[aux1]=aux
 		lw t1,4($fp)					# cargo j
 		addu t1,t1,1
 		sw t1,4($fp)

@@ -4,7 +4,7 @@ PROG = tp1
 DEFAULT = all
 
 main: matrix.h cola.h proceso_texto.h lectura.h cola.c matrix.c proceso_texto.c lectura.c tp1.c 
-	$(CC) $(CFLAGS) cola.c proceso_texto.c lectura.c matrix.c matrix_multiply.c tp1.c
+	$(CC) $(CFLAGS) cola.c proceso_texto.c lectura.c matrix.c tp1.c
 	
 multiply_c: matrix_multiply.h matrix_multiply.c
 	$(CC) $(CFLAGS) matrix_multiply.c
