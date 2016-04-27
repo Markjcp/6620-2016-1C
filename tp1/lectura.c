@@ -11,7 +11,6 @@ char* leer_linea(){
 	char ch;	
 	size_t tam = TAMANIO_INICIAL_BUFFER; 
 	int i;
-	int exp_realloc = 1;
 
 	char* buffer = malloc(sizeof(char)*(tam));
 	if (!buffer) return NULL;
@@ -24,8 +23,7 @@ char* leer_linea(){
 			return NULL;
 		}
 		if(i + 1 == tam){ // si llego al tamanio de mi cadena
-			exp_realloc += 1;
-			tam = (size_t)pow(TAMANIO_INICIAL_BUFFER,exp_realloc);  // la forma de modificar tam es arbitraria
+			tam += tam;  // la forma de modificar tam es arbitraria
 			char* aux = realloc(buffer, tam * sizeof(char));
 			if(!aux) return NULL;  // si falla realloc, termino aca
 			buffer = aux;

@@ -28,11 +28,9 @@ cola_t *separar_linea(char *linea)
 	size_t largo;
 	bool ok_palabra;
 	char *ptr;
-	int exp_realloc;
 	while(linea[pos_linea] != FIN_STRING)
 	{
 		largo = TAMANIO_INICIAL_BUFFER;
-		exp_realloc = 1;
 		char* buffer = malloc(sizeof(char)*(largo));
 		if (!buffer)
 		{
@@ -44,8 +42,7 @@ cola_t *separar_linea(char *linea)
 		{
 			if (pos_palabra == largo-2)
 			{
-				exp_realloc += 1;
-				largo = (size_t)pow(TAMANIO_INICIAL_BUFFER,exp_realloc);
+				largo += largo;
 				char *buffer_aux = realloc(buffer, largo * sizeof(char));
 				if (!buffer_aux)
 				{
