@@ -34,7 +34,7 @@ int print_matrix(FILE* fp, matrix_t* m){
 	size_t j;
 	int fd;
 	size_t tam_buffer = TAMANIO_BUFFER;
-	size_t tam_salida = 4*tam_buffer;
+	size_t tam_salida = FACTOR_MEMORIA_INICIAL * tam_buffer;
 	char* aux;
 	char* num = malloc(tam_buffer*sizeof(char));
 	if (!num) return ERROR_ESCRITURA;
@@ -56,7 +56,7 @@ int print_matrix(FILE* fp, matrix_t* m){
 	{
 		for ( j = 0; j < m->cols; j++) 
 		{
-			if (2*strlen(salida) >= tam_salida)
+			if ((FACTOR_ESCALA * strlen(salida)) >= tam_salida)
 			{
 				tam_salida += tam_salida;
 				aux = realloc(salida, tam_salida * sizeof(char));

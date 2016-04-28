@@ -3,7 +3,8 @@
 
 #define ERROR_ESCRITURA -1
 #define TAMANIO_BUFFER 100
-
+#define FACTOR_MEMORIA_INICIAL 4
+#define FACTOR_ESCALA 2
 #include <stdlib.h>
 
 typedef struct matrix {
