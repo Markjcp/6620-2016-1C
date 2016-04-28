@@ -1,6 +1,8 @@
 #ifndef MATRIX_H_
 #define MATRIX_H_
+
 #define ERROR_ESCRITURA -1
+#define TAMANIO_BUFFER 100
 
 #include <stdlib.h>
 
