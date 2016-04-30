@@ -1,13 +1,11 @@
 #include <mips/regdef.h>
 #include <sys/syscall.h>
 
-#----------------------------	68
-#			FP
 #----------------------------	64
-#			GP
+#			FP
 #----------------------------	60
-#////////////////////////////
-#----------------------------	54
+#			GP
+#----------------------------	56
 #
 #			SECOND
 #----------------------------	48
@@ -40,20 +38,20 @@
 		.globl matrix_multiply
 		.ent matrix_multiply
 matrix_multiply:
-		.frame $fp, 68, ra
+		.frame $fp, 64, ra
 		.set noreorder
 		.cpload t9
 		.set reorder
 
-		subu sp,sp,68
+		subu sp,sp,64
 
-		.cprestore 60
-		sw $fp,64(sp)
+		.cprestore 56
+		sw $fp,60(sp)
 		move $fp,sp
 
-		sw a0, 68($fp)
-		sw a1, 72($fp)
-		sw a2, 76($fp)
+		sw a0, 64($fp)
+		sw a1, 68($fp)
+		sw a2, 72($fp)
 
 		li t1,0
 		sw t1,0($fp) 					# i=0
@@ -152,7 +150,7 @@ store_values:
 		addu t1,t1,t2
 		mul t1,t1,8
 		sw t1,20($fp)					# aux1 = (aux1 + j)*8
-		lw t1,76($fp)					# cargo a2
+		lw t1,72($fp)					# cargo a2
 		addu t1,t1,8					# apunto al array
 		lw t1,0(t1)
 		lw t2,20($fp)					# cargo aux1
@@ -165,8 +163,8 @@ store_values:
 		b loop_2
 
 end:
-		lw $fp,64(sp)					# restablezco sp
-		addu sp,sp,68					# restablezco stack pointer
+		lw $fp,60(sp)					# restablezco sp
+		addu sp,sp,64					# restablezco stack pointer
 		j ra 							# jump and return
 
 .end	matrix_multiply
