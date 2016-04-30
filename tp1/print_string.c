@@ -11,5 +11,6 @@ ssize_t print_string(int fd, char* str){
 	}
 	result = fprintf(fp,str);
 	fclose(fp);
+	if(result < 0)return ERROR;
 	return result;
 }
