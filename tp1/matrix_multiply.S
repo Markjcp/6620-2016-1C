@@ -61,7 +61,7 @@ matrix_multiply:
 		sw t1,4($fp) 					# j=0
 		li.d $f4,0
 		s.d $f4,32($fp)					# aux=0.0
-		lw t1,8(a0)
+		lw t1,0(a0)
 		sw t1,12($fp) 					# rows=m1->rows
 		lw t1,4(a0)
 		sw t1,16($fp) 					# cols=m1->cols
@@ -93,27 +93,33 @@ loop_3:	lw t1,8($fp)					# cargo x
 		lw t1, 24($fp)					# cargo aux2
 		mul t1, t1, 8					# multiplico por 8 para correrme cada double
 		sw t1, 24($fp)
-		lw t1, 24($fp)					# cargo aux2
-		addu t1, a0
-		sw t1, 28($fp)					# aux3 = aux2 + result
+
+		lw t1,8(a0)						# obtengo la direccion del array
+
+		lw t2, 24($fp)					# cargo aux2
+		addu t3,t1,t2
+		sw t3,28($fp)
 		lw t1, 28($fp)					# cargo aux3
 		l.d $f4,0(t1)						# cargo el elemento de la matriz
 		s.d $f4,40($fp)					# first = m[...]
 
-		lw t1,0($fp) 					# cargo i
+		lw t1,8($fp) 					# cargo x
 		lw t2,16($fp)					# cargo cols
 		mul t3,t1,t2
-		sw t3, 20($fp)					# aux1 = i*cols
+		sw t3, 20($fp)					# aux1 = x*cols
 		lw t1, 20($fp)					# cargo aux1
-		lw t2,8($fp)					# cargo x
+		lw t2,4($fp)					# cargo j
 		addu t3, t1, t2
-		sw t3, 24($fp)					# aux2 = aux1 + x
+		sw t3, 24($fp)					# aux2 = aux1 + j
 		lw t1, 24($fp)					# cargo aux2
 		mul t1, t1, 8					# multiplico por 8 para correrme cada double
 		sw t1, 24($fp)
-		lw t1, 24($fp)					# cargo aux2
-		addu t1, a1
-		sw t1, 28($fp)					# aux3 = aux2 + result
+
+		lw t1,8(a1)						# obtengo la direccion del array
+
+		lw t2, 24($fp)					# cargo aux2
+		addu t3,t1,t2
+		sw t3,28($fp)
 		lw t1, 28($fp)					# cargo aux3
 		l.d $f4,0(t1)						# cargo el elemento de la matriz
 		s.d $f4,48($fp)					# second = m[...]
@@ -147,6 +153,8 @@ store_values:
 		mul t1,t1,8
 		sw t1,20($fp)					# aux1 = (aux1 + j)*8
 		lw t1,76($fp)					# cargo a2
+		addu t1,t1,8					# apunto al array
+		lw t1,0(t1)
 		lw t2,20($fp)					# cargo aux1
 		l.d $f4,32($fp)					# cargo aux
 		addu t3,t1,t2
