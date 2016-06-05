@@ -1,0 +1,20 @@
+CC = gcc
+CFLAGS = -c -g -Wall -I ./
+PROG = tp2
+DEFAULT = all
+
+main: matrix.h cola.h proceso_texto.h lectura.h cola.c matrix.c proceso_texto.c lectura.c tp2.c 
+	$(CC) $(CFLAGS) cola.c proceso_texto.c lectura.c matrix.c tp2.c
+	
+main_tests: matrix.h matrix.c *test.c
+	$(CC) $(CFLAGS) matrix.c *_test.c
+
+all: main
+	$(CC) cola.o proceso_texto.o lectura.o matrix.o tp2.o -o $(PROG)
+	
+test: main_tests
+	$(CC) basic_test.o matrix.o -o basic_test
+	$(CC) multiply_test.o matrix.o -o multiply_test
+	
+clean:
+	rm -rf *.o $(PROG) basic_test multiply_test
